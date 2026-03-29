@@ -1,7 +1,7 @@
 [build]
   base = "balkanmarket/apps/frontend"
   command = "npm install && npm run build"
-  publish = "balkanmarket/apps/frontend/dist"
+  publish = "dist"
 
 [[redirects]]
   from = "/api/*"
