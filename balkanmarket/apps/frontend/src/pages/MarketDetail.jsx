@@ -65,7 +65,7 @@ export default function MarketDetail() {
                 {status.label}
               </span>
               <span className="text-xs text-[var(--muted)]">
-                Ističe: {format(new Date(market.endDate), "dd.MM.yyyy")}
+                ističe: {format(new Date(market.endDate), "dd.MM.yyyy")}
               </span>
             </div>
             <h1 className="text-xl font-bold leading-snug">{market.question}</h1>
@@ -162,7 +162,7 @@ export default function MarketDetail() {
       {/* Chart */}
       <div className="card">
         <h3 className="font-bold mb-4 text-sm text-[var(--muted)] uppercase tracking-wide">
-          Historija cijena
+          Istorija cijena
         </h3>
         <PriceChart history={history} />
       </div>

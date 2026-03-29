@@ -55,7 +55,7 @@ export default function Portfolio() {
 
       {/* Tabs */}
       <div className="flex gap-2">
-        {[["open", `Otvorene (${positions.length})`], ["history", `Historija (${history.length})`]].map(([t, l]) => (
+        {[["open", `Otvorene (${positions.length})`], ["history", `Istorija (${history.length})`]].map(([t, l]) => (
           <button key={t} onClick={() => setTab(t)}
             className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all border
               ${tab === t ? "bg-[var(--border)] text-[var(--text)] border-[var(--border)]"
@@ -77,7 +77,7 @@ export default function Portfolio() {
           {positions.length === 0 ? (
             <div className="card text-center py-16">
               <div className="text-4xl mb-3">📭</div>
-              <p className="text-[var(--muted)] mb-4">Nemaš otvorenih pozicija.</p>
+              <p className="text-[var(--muted)] mb-4">Nemaš Otvorenih pozicija.</p>
               <Link to="/" className="btn-primary inline-block">Idi na tržišta</Link>
             </div>
           ) : positions.map((pos) => {

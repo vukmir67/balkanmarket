@@ -194,7 +194,7 @@ export default function Admin() {
             <textarea value={mForm.question}
               onChange={(e) => setMForm((f) => ({ ...f, question: e.target.value }))}
               className="input resize-none" rows={3}
-              placeholder="Hoće li...? (mora biti jasno da/ne pitanje)" required />
+              placeholder="Da li će...? (mora biti jasno da/ne pitanje)" required />
           </div>
 
           <div>

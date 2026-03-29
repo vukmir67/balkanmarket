@@ -115,7 +115,7 @@ export default function Wallet() {
 
       {/* Tabs */}
       <div className="flex gap-2">
-        {[["deposit", "💳 Uplata"], ["withdraw", "🏦 Isplata"], ["history", "📋 Historija"]].map(([t, l]) => (
+        {[["deposit", "💳 Uplata"], ["withdraw", "🏦 Isplata"], ["history", "📋 Istorija"]].map(([t, l]) => (
           <button key={t} onClick={() => setTab(t)}
             className="flex-1 py-2 rounded-xl text-sm font-semibold transition-all border"
             style={{
@@ -224,7 +224,7 @@ export default function Wallet() {
       {/* History */}
       {tab === "history" && (
         <div className="card">
-          <h2 className="font-bold mb-4">Historija transakcija</h2>
+          <h2 className="font-bold mb-4">Istorija transakcija</h2>
           {loading ? (
             <div className="space-y-2">
               {[...Array(4)].map((_, i) => <div key={i} className="h-12 bg-[var(--bg)] rounded-xl animate-pulse-soft" />)}
