@@ -115,7 +115,7 @@ export default function Wallet() {
 
       {/* Tabs */}
       <div className="flex gap-2">
-        {[["deposit", "💳 Uplata"], ["withdraw", "🏦 Isplata"], ["history", "📋 Istorija"]].map(([t, l]) => (
+        {[["deposit", "💳 uplata"], ["withdraw", "🏦 isplata"], ["history", "📋 Istorija"]].map(([t, l]) => (
           <button key={t} onClick={() => setTab(t)}
             className="flex-1 py-2 rounded-xl text-sm font-semibold transition-all border"
             style={{
@@ -131,7 +131,7 @@ export default function Wallet() {
       {/* Deposit */}
       {tab === "deposit" && (
         <form onSubmit={handleDeposit} className="card space-y-4">
-          <h2 className="font-bold">Uplata (EUR)</h2>
+          <h2 className="font-bold">uplata (EUR)</h2>
 
           <div>
             <label className="text-xs text-[var(--muted)] block mb-1.5 font-semibold">Iznos</label>
@@ -168,11 +168,11 @@ export default function Wallet() {
           </div>
 
           <button type="submit" disabled={depLoading || !depAmount} className="btn-primary w-full">
-            {depLoading ? "Procesiranje..." : `Uplati €${depAmount || "0"}`}
+            {depLoading ? "Procesiranje..." : `uplati €${depAmount || "0"}`}
           </button>
 
           <p className="text-xs text-[var(--muted)] text-center">
-            🔒 Plaćanja su zaštićena Stripe-om. BalkanMarket ne čuva podatke kartice.
+            🔒 plaćanja su zaštićena Stripe-om. BalkanMarket ne čuva podatke kartice.
           </p>
         </form>
       )}
@@ -180,7 +180,7 @@ export default function Wallet() {
       {/* Withdraw */}
       {tab === "withdraw" && (
         <form onSubmit={handleWithdraw} className="card space-y-4">
-          <h2 className="font-bold">Isplata na bankovni račun</h2>
+          <h2 className="font-bold">isplata na bankovni račun</h2>
 
           {user.kycStatus === "PENDING" || user.kycStatus === "BASIC" ? (
             <div className="bg-red/10 border border-red/30 rounded-xl p-4 text-sm text-red">
@@ -214,7 +214,7 @@ export default function Wallet() {
                 {witLoading ? "Šaljem zahtjev..." : "Zatraži isplatu"}
               </button>
               <p className="text-xs text-[var(--muted)] text-center">
-                Isplate se obrađuju u roku 1-3 radna dana. Fee: 0.25%
+                isplate se obrađuju u roku 1-3 radna dana. Fee: 0.25%
               </p>
             </>
           )}
@@ -237,7 +237,7 @@ export default function Wallet() {
                 <div key={p.id} className="flex justify-between items-center py-3 text-sm">
                   <div>
                     <span className={`font-bold ${p.type === "DEPOSIT" ? "text-green" : "text-red"}`}>
-                      {p.type === "DEPOSIT" ? "↓ Uplata" : "↑ Isplata"}
+                      {p.type === "DEPOSIT" ? "↓ uplata" : "↑ isplata"}
                     </span>
                     <span className="text-[var(--muted)] ml-2 text-xs">
                       {p.provider} • {format(new Date(p.createdAt), "dd.MM.yyyy")}
