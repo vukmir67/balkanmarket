@@ -11,7 +11,7 @@ import BetModal   from "../components/trade/BetModal";
 const STATUS_LABEL = {
   OPEN:      { label: "🟢 Otvoreno",   color: "var(--green)" },
   CLOSED:    { label: "🟡 Zatvoreno",  color: "#fbbf24" },
-  RESOLVED:  { label: "✅ Razriješeno", color: "var(--muted)" },
+  RESOLVED:  { label: "✅ Rešeno", color: "var(--muted)" },
   CANCELLED: { label: "❌ Otkazano",   color: "var(--red)" },
 };
 

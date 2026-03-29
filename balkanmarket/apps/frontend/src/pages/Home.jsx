@@ -34,7 +34,7 @@ export default function Home() {
           Balkanska <span className="text-accent">Prediktivna</span> Tržišta
         </h1>
         <p className="text-[var(--muted)] text-lg max-w-xl mx-auto">
-          Kupi i prodaj udjele u ishodima realnih događaja. Tržišna cijena = kolektivna vjerovatnoća.
+          Kupi i prodaj udjele u ishodima realnih događaja. Tržišna cijena = kolektivna verovatnonoća.
         </p>
       </div>
 

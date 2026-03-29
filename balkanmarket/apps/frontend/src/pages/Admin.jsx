@@ -84,7 +84,7 @@ export default function Admin() {
       await api.put(`/admin/markets/${resolveId}/resolve`, {
         outcome: resolveOut, sourceUrl: resolveUrl,
       });
-      notif.success(`✓ Tržište razriješeno: ${resolveOut}`);
+      notif.success(`✓ Tržište Rešeno: ${resolveOut}`);
       setResolveId(""); setResolveUrl("");
       await loadAll();
     } catch (err) {
@@ -109,7 +109,7 @@ export default function Admin() {
   const TABS = [
     ["stats",   "📊 Statistike"],
     ["create",  "➕ Novo tržište"],
-    ["resolve", "✅ Razriješi"],
+    ["resolve", "✅ Reši"],
     ["users",   "👥 Korisnici"],
   ];
 
@@ -260,7 +260,7 @@ export default function Admin() {
       {/* Resolve */}
       {tab === "resolve" && (
         <form onSubmit={resolveMarket} className="card space-y-4">
-          <h2 className="font-bold text-lg">Razriješi tržište</h2>
+          <h2 className="font-bold text-lg">Reši tržište</h2>
 
           <div>
             <label className="text-xs text-[var(--muted)] block mb-1.5 font-semibold">
@@ -303,12 +303,12 @@ export default function Admin() {
           </div>
 
           <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 text-sm text-yellow-400">
-            ⚠ Ova akcija je nepovratna. Korisnici koji su kladili na pobjednički ishod dobivaju automatsku isplatu.
+            ⚠ Ova akcija je Nepovratna. Korisnici koji su kladili na pobjednički ishod dobivaju automatsku isplatu.
           </div>
 
           <button type="submit" disabled={rLoading} className="btn-primary w-full"
             style={{ background: resolveOut === "YES" ? "var(--green)" : resolveOut === "NO" ? "var(--red)" : "var(--muted)" }}>
-            {rLoading ? "Razrješavam..." : `Razriješi kao ${resolveOut}`}
+            {rLoading ? "Razrješavam..." : `Reši kao ${resolveOut}`}
           </button>
         </form>
       )}
