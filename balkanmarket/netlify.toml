@@ -1,10 +1,10 @@
 [build]
-base = "balkanmarket/apps/frontend"
-command = "npm install && npm run build"
-publish = "balkanmarket/apps/frontend/dist"
+  base    = "balkanmarket/apps/frontend"
+  command = "npm install && npm run build"
+  publish = "balkanmarket/apps/frontend/dist"
 
 [[redirects]]
-from = "/api/*"
-to = "https://balkanmarket-production.up.railway.app/api/:splat"
-status = 200
-force = true
+  from   = "/api/*"
+  to     = "https://balkanmarket-production.up.railway.app/api/:splat"
+  status = 200
+  force  = true
