@@ -1,0 +1,209 @@
+// BalkanMarket — Prisma Schema
+// PostgreSQL 16
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum KycStatus {
+  PENDING
+  BASIC
+  VERIFIED
+  PREMIUM
+}
+
+enum MarketStatus {
+  OPEN
+  CLOSED
+  RESOLVED
+  CANCELLED
+}
+
+enum Category {
+  POLITIKA
+  SPORT
+  EKONOMIJA
+  TEHNOLOGIJA
+  KULTURA
+  OSTALO
+}
+
+enum Side {
+  YES
+  NO
+}
+
+enum PaymentType {
+  DEPOSIT
+  WITHDRAWAL
+}
+
+enum PaymentProvider {
+  STRIPE
+  CRYPTO
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum Outcome {
+  YES
+  NO
+  CANCELLED
+}
+
+// ─── Models ───────────────────────────────────────────────────────────────────
+
+model User {
+  id             String      @id @default(cuid())
+  email          String      @unique
+  passwordHash   String?
+  walletAddress  String?     @unique
+  displayName    String?
+  avatarUrl      String?
+  kycStatus      KycStatus   @default(PENDING)
+  balanceEur     Decimal     @default(0) @db.Decimal(18, 2)
+  balanceUsdc    Decimal     @default(0) @db.Decimal(18, 6)
+  isAdmin        Boolean     @default(false)
+  emailVerified  Boolean     @default(false)
+  verifyToken    String?
+  resetToken     String?
+  resetTokenExp  DateTime?
+  refreshToken   String?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  positions      Position[]
+  trades         Trade[]
+  payments       Payment[]
+
+  @@index([email])
+  @@index([walletAddress])
+}
+
+model Market {
+  id           String       @id @default(cuid())
+  question     String
+  description  String?
+  category     Category
+  icon         String       @default("🎯")
+  yesPrice     Int          @default(50)  // 0–100 cents
+  noPrice      Int          @default(50)
+  qYes         Decimal      @default(0) @db.Decimal(18, 6)  // LMSR internal state
+  qNo          Decimal      @default(0) @db.Decimal(18, 6)
+  lmsrB        Decimal      @default(100) @db.Decimal(18, 2) // liquidity param
+  volume       Decimal      @default(0) @db.Decimal(18, 2)
+  liquidity    Decimal      @default(1000) @db.Decimal(18, 2)
+  status       MarketStatus @default(OPEN)
+  endDate      DateTime
+  sourceUrl    String?
+  createdBy    String?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  positions    Position[]
+  trades       Trade[]
+  history      MarketHistory[]
+  resolution   Resolution?
+
+  @@index([status])
+  @@index([category])
+  @@index([endDate])
+}
+
+model Position {
+  id        String   @id @default(cuid())
+  userId    String
+  marketId  String
+  side      Side
+  shares    Decimal  @db.Decimal(18, 6)
+  avgPrice  Int      // cents 0–100
+  pnl       Decimal  @default(0) @db.Decimal(18, 2)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId],   references: [id])
+  market    Market   @relation(fields: [marketId], references: [id])
+
+  @@unique([userId, marketId, side])
+  @@index([userId])
+  @@index([marketId])
+}
+
+model Trade {
+  id        String   @id @default(cuid())
+  userId    String
+  marketId  String
+  side      Side
+  action    String   // BUY | SELL
+  amountEur Decimal  @db.Decimal(18, 2)
+  shares    Decimal  @db.Decimal(18, 6)
+  price     Int      // execution price in cents
+  fee       Decimal  @db.Decimal(18, 2)
+  txHash    String?
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId],   references: [id])
+  market    Market   @relation(fields: [marketId], references: [id])
+
+  @@index([userId])
+  @@index([marketId])
+  @@index([createdAt])
+}
+
+model MarketHistory {
+  id        String   @id @default(cuid())
+  marketId  String
+  yesPrice  Int
+  noPrice   Int
+  volume    Decimal  @db.Decimal(18, 2)
+  timestamp DateTime @default(now())
+
+  market    Market   @relation(fields: [marketId], references: [id])
+
+  @@index([marketId, timestamp])
+}
+
+model Resolution {
+  id         String   @id @default(cuid())
+  marketId   String   @unique
+  outcome    Outcome
+  sourceUrl  String
+  resolvedBy String
+  resolvedAt DateTime @default(now())
+  notes      String?
+
+  market     Market   @relation(fields: [marketId], references: [id])
+}
+
+model Payment {
+  id           String          @id @default(cuid())
+  userId       String
+  type         PaymentType
+  provider     PaymentProvider
+  amountEur    Decimal         @db.Decimal(18, 2)
+  amountUsdc   Decimal?        @db.Decimal(18, 6)
+  status       PaymentStatus   @default(PENDING)
+  stripeId     String?
+  txHash       String?
+  toAddress    String?
+  iban         String?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  user         User            @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([status])
+}
