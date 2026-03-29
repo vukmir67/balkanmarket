@@ -1,4 +1,4 @@
-[build]
+﻿[build]
   base    = "balkanmarket/apps/frontend"
   command = "npm install && npm run build"
   publish = "balkanmarket/apps/frontend/dist"
